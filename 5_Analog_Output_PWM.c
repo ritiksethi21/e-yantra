@@ -37,7 +37,7 @@ void led_greenOn(void){
 }
 
 void led_greenOff(void){
-	PORTH |= (1 << PIN_LED_GREEN);
+	PORTH |= (2 << PIN_LED_GREEN);
 }
 
 void led_blueOn(void){
@@ -45,7 +45,7 @@ void led_blueOn(void){
 }
 
 void led_blueOff(void){
-	PORTH |= (1 << PIN_LED_BLUE);
+	PORTH |= (2 << PIN_LED_BLUE);
 }
 
 // Timer 4 initialized in PWM mode for brightness control
@@ -64,6 +64,10 @@ void timer4_init()
 	OCR4AH = 0x00;	//Output compare register high value for Red Led
 	OCR4AL = 0xFF;	//Output compare register low value for Red Led
 	
+	OPR4AH = 0x00;	//Output performance register high value for Red Led
+	OPR4AL = 0xFF;	//Output performance register low value for Red Led
+	
+
 	OCR4BH = 0x00;	//Output compare register high value for Blue Led
 	OCR4BL = 0xFF;	//Output compare register low value for Blue Led
 
@@ -91,6 +95,7 @@ void brightness (unsigned char red_led, unsigned char green_led, unsigned char b
 	OCR4AL = 255 - (unsigned char)red_led; 	// active low thats why subtracting by 255
 	OCR4CL = 255 - (unsigned char)green_led;
 	OCR4BL = 255 - (unsigned char)blue_led;
+	OPR4AL = (unsigned char)green_led;
 }
 
 //use this function to initialize all devices
